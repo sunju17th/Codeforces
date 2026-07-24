@@ -1,9 +1,9 @@
-
+// 2025-2026 ICPC NERC, Kyrgyzstan Regional Contest - Problem C
 #include<bits/stdc++.h>
 
 using namespace std;
 
-const long N = 6000006; // 3*10^6
+const long N = 6000006; // 6*10^6
 bool prime[N] = {0};
 
 void sang(int n)
@@ -25,15 +25,30 @@ int main()
    long long n;
    cin >> n;
    long long ans = 0;
+   long limit = sqrt(n) + 1;
 
-   sang(n);
+   if(n>N) limit = N-1;
+   sang(limit);
 
-   for(long i=3;i*i<=n;i++)
+   for(long i=3;i<=limit;i++)
    {
         if(prime[i] == true){
             for(int j=0;j<=9;j++)
             {
-                if(pow(i, a[j]-1) <= n) ans++;
+                long long temp = 1;
+                bool valid = true;
+                for(int step=0;step<a[j]-1;step++)
+                {
+                    if(n / i < temp) 
+                    {
+                        valid = false;
+                        break;
+                    }
+                    temp*=i;
+                }
+
+                if(valid && temp <= n) ans++;
+                else break;
             }
         }
    }
